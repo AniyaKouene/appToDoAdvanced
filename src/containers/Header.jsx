@@ -4,15 +4,24 @@ import * as actions from "../actions";
 import { Link } from "react-router-dom";
 
 class Header extends Component {
-  onClickAuthentification = () => {
-    this.props.setAuthentification(!this.props.isLoggedIn);
-  };
-  renderAuthentificationLabel = () => {
-    if (this.props.isLoggedIn) {
-      return "Deconnexion";
+  renderAuthentificationLink = () => {
+    if(this.props.isLoggedIn){
+      return (
+        <li className="nav-item">
+        <Link className="nav-link" to={"/signout"}>Deconnexion</Link>
+        </li>
+      )
+    } else {
+      return [
+        <li key={1} className="nav-item">
+        <Link className="nav-link" to={"/signin"}>Connexion</Link>
+        </li>,
+         <li key={2} className="nav-item">
+         <Link className="nav-link" to={"/signup"}>Inscription</Link>
+         </li>
+      ]
     }
-    return "Connexion";
-  };
+  }
   render() {
     return (
       <div>
@@ -27,15 +36,7 @@ class Header extends Component {
               Ressources
             </Link>
           </li>
-          <li className="nav-item">
-            <Link
-              className="nav-link"
-              to="/"
-              onClick={this.onClickAuthentification}
-            >
-              {this.renderAuthentificationLabel()}
-            </Link>
-          </li>
+            {this.renderAuthentificationLink()}
         </ul>
       </div>
     );
