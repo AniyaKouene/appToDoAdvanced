@@ -13,7 +13,7 @@ mongoose.connection.once('open', () => console.log("connecté a mongoLab"))
     .on('error', error => console.log("erreur de connection à mongoLab", error));
 expressServer.use(morgan('combined'));
 expressServer.use(bodyParser.json({
-    type: '*/'
+    type: "*/*"
 }));
 
 

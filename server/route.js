@@ -1,12 +1,21 @@
+const AuthentificationController = require('./controllers/authentification');
+require('./services/passport');
+const passport = require('passport')
+
+const requireToken = passport.authenticate('jwt', {
+    session: false
+});
+const requireValidCredentials = passport.authenticate('local', {
+    session: false
+})
+
 module.exports = function (expressServer) {
-    expressServer.get("/", function (req, res, next) {
+    expressServer.post("/signup", AuthentificationController.signup)
+    expressServer.get("/ressourcesSecrete", requireToken, function (req, res) {
         res.send({
-            serverData: ["One Piece", "Naruto", "Bleach"]
-        });
+            codeDeLamort: 42
+        })
     });
-    expressServer.get("/signup", function (req, res, next) {
-        res.send({
-            serverData: ["One Piece", "Naruto", "Bleach"]
-        });
-    });
-}
+
+    expressServer.post("/signin", requireValidCredentials, AuthentificationController.signin)
+};

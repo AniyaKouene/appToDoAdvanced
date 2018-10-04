@@ -3,9 +3,24 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "enzyme": "^3.6.0",
+    "enzyme-adapter-react-16": "^1.5.0",
+    "jwt-simple": "^0.5.5",
+    "lodash": "^4.17.11",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
-    "react-scripts": "1.1.5"
+    "react-redux": "^5.0.7",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "1.1.5",
+    "redux": "^4.0.0",
+    "redux-immutable-state-invariant": "^2.1.0",
+    "redux-thunk": "^2.3.0",
+    "reselect": "^4.0.0",
+    "save": "^2.3.2"
   },
   "scripts": {
     "start": "react-scripts start",
