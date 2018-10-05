@@ -8,14 +8,14 @@ export default function(ChildComponent) {
         this.props.history.push("/");
       }
     }
-    componentDidUpdate(nextProps){
+    componentWillUpdate(nextProps){
         if(!nextProps.isLoggedIn){
             this.props.history.push("/");
         }
 
     }
     render() {
-      return <ChildComponent />;
+      return this.props.isLoggedIn && <ChildComponent />;
     }
   }
   const mstp = state => {
