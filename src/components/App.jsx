@@ -1,14 +1,17 @@
 import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 
+import './App.css';
 
 import RequireAut from "../helpers/RequireAut";
 import Header from "../containers/Header";
-import Ressources from "../containers/Ressources";
+import Home from "./Home";
+// import Ressources from "../containers/Ressources";
 import Signup from "../containers/Signup";
 import Signin from "../containers/Signin";
 import Signout from "../containers/Signout";
-// import Todo from "./ToDo";
+import Errors from "./Errors";
+import Todo from "./ToDo";
 
 class App extends Component {
   render() {
@@ -16,9 +19,10 @@ class App extends Component {
       <div className="App">
         <Header />
         <div className="container mt-5">
+        <Errors/>
           <Switch>
-            <Route exact path="/" component={Ressources} />
-            <Route exact path="/ressources" component={RequireAut(Ressources)} />
+            <Route exact path="/" component={Home} />
+            <Route path="/ressources" component={RequireAut(Todo)} />
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/signin" component={Signin} />
             <Route exact path="/signout" component={Signout} />

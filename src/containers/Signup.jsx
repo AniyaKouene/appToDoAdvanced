@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { reduxForm, Field } from "redux-form";
 
 import * as actions from "../actions";
-// import * as validations from "../validations";
+import * as validations from "../validations";
 
 const FIELDS = {
   email: "email",
@@ -11,8 +11,8 @@ const FIELDS = {
   secondPassword: "secondPassword"
 };
 class Signup extends Component {
-  handleSubmit = credential => {
-    this.props.signupUser(credential, this.props.history);
+  handleSubmit = formValues => {
+    this.props.signupUser(formValues, this.props.history);
   };
   renderField = field => {
     return (
@@ -63,20 +63,20 @@ class Signup extends Component {
   }
 }
 
-// function validate(formProps) {
-//   const errors = {};
-//   errors.email = validations.validateEmail(formProps.email);
-//   errors.password = validations.validateNotEmpty(formProps.password);
-//   errors.secondPassword = validations.validateEqual(
-//     formProps.password,
-//     formProps.secondPassword
-//   );
-//   return errors;
-// }
+function validate(formValues) {
+  const errors = {};
+  errors.email = validations.validateEmail(formValues.email);
+  errors.password = validations.validateNotEmpty(formValues.password);
+  errors.secondPassword = validations.validateEqual(
+    formValues.password,
+    formValues.secondPassword
+  );
+  return errors;
+}
 const SignupForm = reduxForm({
   form: "SignupForm",
   fields: Object.keys(FIELDS),
-//   validate
+  validate
 })(Signup);
 
 export default connect(

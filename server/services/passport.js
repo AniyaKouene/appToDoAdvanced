@@ -1,19 +1,27 @@
-const passport = require('passport');
-const User = require('../models/user');
-const config = require('../../config');
-const JwtStrategy = require('passport-jwt').Strategy;
-const ExtractJwt = require('passport-jwt').ExtractJwt;
-const LocalStrategy = require('passport-local')
+const passport = require("passport");
+const User = require("../models/user");
+const config = require("../../config");
+const JwtStrategy = require("passport-jwt").Strategy;
+const ExtractJwt = require("passport-jwt").ExtractJwt;
+const LocalStrategy = require("passport-local");
 
+//Option pour la stratégie de JWT
 const jwtOptions = {
-    jwtFromRequest: ExtractJwt.fromHeader('autorization'),
+    // Il faut dire a jwt ou chercher dans le header pour trouver le token
+    // Des qu'une requete arrive regarde la variable authorization dans le header pour trouver le token
+    jwtFromRequest: ExtractJwt.fromHeader("authorization"),
+    // Il faut décoder le tokendonc on lui donne la clé d'encryption
     secretOrKey: config.secret
 };
 
+// Création de la stratégie JWT
+// Va vérifier si l'id passé en payload existe dans la db
+// Si c'est le cas ,appeler done
 const jwtLogin = new JwtStrategy(jwtOptions, function (payload, done) {
     const userId = payload.sub;
     User.findById(userId, function (err, user) {
         if (err) {
+             // Erreur
             return done(err, false);
         }
         if (user) {
@@ -23,23 +31,31 @@ const jwtLogin = new JwtStrategy(jwtOptions, function (payload, done) {
         }
     });
 });
-const LocalOptions = {
+const localOptions = {
     usernameField: "email"
-}
-const localLoginStartegy = new LocalStrategy(LocalOptions, function (email, password, done) {
+};
+const localLoginStrategy = new LocalStrategy(localOptions, function (
+    email,
+    password,
+    done
+) {
     User.findOne({
         email
-    }, function(err, user) {
+    }, function (err, user) {
         if (err) return done(err);
         if (!user) return done(null, false);
-        user.isPasswordEqualTo(password, function(err, isMatch){
-            if (err) return done(err);
-            if (!isMatch) return done(null, false);
+
+        user.isPasswordEqualTo(password, function (err, isMatch) {
+            if (err) {
+                return done(err);
+            }
+            if (!isMatch) {
+                return done(null, false);
+            }
             return done(null, user);
         });
-
     });
 });
 
 passport.use(jwtLogin);
-passport.use(localLoginStartegy);
+passport.use(localLoginStrategy);

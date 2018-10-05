@@ -31,7 +31,7 @@ class Signin extends Component {
         </div>
         <div className="row justify-content-md-center">
           <fieldset className="col-md-4 form-group">
-            <label className="bmd-label-floating"> Email</label>
+            <label className="bmd-label-floating"> Password</label>
             <Field
               name={FIELDS.password}
               component="input"

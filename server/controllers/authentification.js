@@ -5,13 +5,15 @@ const jwt = require('jwt-simple');
 
 const config = require('../../config');
 
+
 function getTokenForUser(user) {
+    //sub pour subject et iat : issue at time
     const timeStamp = new Date().getTime();
     return jwt.encode({
             sub: user.id,
             iat: timeStamp
         },
-        config.secret)
+        config.secret);
 }
 
 exports.signup = function (req, res, next) {
@@ -41,12 +43,14 @@ exports.signup = function (req, res, next) {
                 if (err) {
                     return next(err);
                 }
-                res.json({token: getTokenForUser(user)});
+                res.json({
+                    token: getTokenForUser(user)
+                });
             })
         }
     })
 };
 
-exports.signin = function(req, res, next){
-    res.json({token: getTokenForUser(req.user)})
-};
+exports.signin = function (req, res, next) {
+    res.json({ token: getTokenForUser(req.user) });
+}

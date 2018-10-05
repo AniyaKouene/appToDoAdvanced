@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { addRessources } from "../actions";
+import { addRessources, getSpecialRessources } from "../actions";
 import {
   getIntegerList,
   getContainsOneList,
@@ -9,6 +9,9 @@ import {
 } from "../selectors";
 
 class Ressources extends Component {
+  componentWillMount(){
+    this.props.getSpecialRessources();
+  }
   renderRessources = ressources => {
     return ressources.map(ressource => <li key={ressource}>{ressource}</li>);
   };
@@ -40,6 +43,7 @@ class Ressources extends Component {
           Entiers premiers contenant "1":{" "}
           <ul>{this.renderRessources(this.props.specialRessources)}</ul>
         </div>
+          {this.props.message}
       </div>
     );
   }
@@ -49,11 +53,13 @@ const mstp = state => {
     integerRessources: getIntegerList(state),
     contentOneRessources: getContainsOneList(state),
     primeRessources: getPrimeNumberList(state),
-    specialRessources: getSpecialNumbersList(state)
+    specialRessources: getSpecialNumbersList(state),
+    message: state.ressources.message
   };
 };
 const mdtp = {
-  addRessources
+  addRessources,
+  getSpecialRessources
 };
 export default connect(
   mstp,
